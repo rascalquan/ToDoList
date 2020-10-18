@@ -97,6 +97,7 @@ export default {
   text-align: center;
   font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
     "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  /* background: url("./images/bg.jpg") no-repeat center; */
 }
 h1 {
   font-size: 34px;
