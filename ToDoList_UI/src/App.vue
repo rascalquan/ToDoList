@@ -7,39 +7,41 @@
       <el-main>
         <div class="main">
           <el-card class="box-card">
-            <div id="newitem">
+            <div id="newItem">
               <el-input
-                v-model="newitem"
+                v-model="newItem"
                 placeholder="请输入待办事项"
                 maxlength="100"
-                @change="additem"
-                @keypress.enter="additem"
+                @change="addItem"
+                @keypress.enter="addItem"
               ></el-input>
             </div>
 
-            <div v-for="item in todoitems" :key="item.id" class="todoitem">
-              <el-checkbox @change="changestate(item, true)"></el-checkbox>
-              {{ item.content }}
-              <el-divider></el-divider>
+            <div v-for="item in todoItems" :key="item.id" class="todoItem">
+              <el-card>
+                <el-checkbox @change="changeState(item, true)"></el-checkbox>
+                {{ item.content }}
+              </el-card>
             </div>
             <el-collapse v-model="activeCollapse" v-show="showFinished">
               <el-collapse-item title="已完成" name="finishedCol">
                 <div
-                  v-for="item in finisheditems"
+                  v-for="item in finishedItems"
                   :key="item.id"
-                  class="finisheditem"
+                  class="finishedItem"
                 >
-                  <el-checkbox
-                    @change="changestate(item, false)"
-                    checked
-                  ></el-checkbox>
-                  {{ item.content }}
-                  <el-button
-                    icon="el-icon-delete"
-                    class="deletefinish"
-                    @click="removefinish"
-                  ></el-button>
-                  <el-divider></el-divider>
+                  <el-card>
+                    <el-checkbox
+                      @change="changeState(item, false)"
+                      checked
+                    ></el-checkbox>
+                    {{ item.content }}
+                    <el-button
+                      icon="el-icon-delete"
+                      class="deleteFinished"
+                      @click="removeFinish"
+                    ></el-button>
+                  </el-card>
                 </div>
               </el-collapse-item>
             </el-collapse>
@@ -52,40 +54,40 @@
 </template>
 
 <script>
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuid } from "uuid";
 export default {
   data() {
     return {
-      newitem: "",
-      todoitems: [],
-      finisheditems: [],
+      newItem: "",
+      todoItems: [],
+      finishedItems: [],
       activeCollapse: ["finishedCol"],
     };
   },
   methods: {
-    additem: function () {
-      this.todoitems.push({ id: uuidv4(), content: this.newitem });
-      this.newitem = "";
+    addItem: function () {
+      this.todoItems.push({ id: uuid(), content: this.newItem });
+      this.newItem = "";
     },
-    changestate: function (item, finish) {
+    changeState(item, finish) {
       if (finish) {
-        this.finisheditems.push(item);
-        let pos = this.todoitems.indexOf(item);
-        this.todoitems.splice(pos, 1);
+        this.finishedItems.push(item);
+        let pos = this.todoItems.indexOf(item);
+        this.todoItems.splice(pos, 1);
       } else {
-        this.todoitems.push(item);
-        let pos = this.finisheditems.indexOf(item);
-        this.finisheditems.splice(pos, 1);
+        this.todoItems.push(item);
+        let pos = this.finishedItems.indexOf(item);
+        this.finishedItems.splice(pos, 1);
       }
     },
-    removefinish: function (item) {
-      let pos = this.finisheditems.indexOf(item);
-      this.finisheditems.splice(pos, 1);
+    removeFinish(item) {
+      let pos = this.finishedItems.indexOf(item);
+      this.finishedItems.splice(pos, 1);
     },
   },
   computed: {
     showFinished: function () {
-      return this.finisheditems.length > 0;
+      return this.finishedItems.length > 0;
     },
   },
 };
@@ -93,11 +95,10 @@ export default {
 
 <style scoped>
 #app {
-  /* font-family: Helvetica, sans-serif; */
   text-align: center;
   font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
     "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
-  /* background: url("./images/bg.jpg") no-repeat center; */
+  /*background: url('images/bg.jpg') no-repeat center;*/
 }
 h1 {
   font-size: 34px;
@@ -114,22 +115,22 @@ h1 {
   min-height: 200px;
   margin: auto;
 }
-#newitem {
+/* #newItem {
   margin-bottom: 15px;
-}
-.todoitem,
-.finisheditem {
+} */
+.todoItem,
+.finishedItem {
   text-align: left;
   /* margin: 5px 0px; */
 }
-.finisheditem {
+.finishedItem {
   text-decoration: line-through;
 }
-.el-divider--horizontal {
-  margin: 15px 0px;
-}
-.deletefinish {
+.deleteFinished {
   border-width: 0px;
   float: right;
+}
+el-footer {
+  bottom: 0;
 }
 </style>

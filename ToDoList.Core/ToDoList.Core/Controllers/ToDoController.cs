@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using ToDoList.Core.Models;
 using ToDoList.Core.Repository;
@@ -45,7 +46,7 @@ namespace ToDoList.Core.Controllers
             if (item == null)
                 return Ok(new ResponseModel() { Code = (int)ErrorCode.InvalidParameter, Message = "todoitem 不能为空" });
 
-            _todoContext.ToDoItems.Add(item);
+            await _todoContext.ToDoItems.AddAsync(item);
             await _todoContext.SaveChangesAsync();
             return Ok(new ResponseModel { Code = (int)ErrorCode.Success });
         }
